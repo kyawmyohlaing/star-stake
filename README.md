@@ -20,9 +20,9 @@ In addition to Webpack and React, this box adds: react-router, redux and redux-a
     }
     ```
 
-3. Run the Ethereum development console.
+3. Run the Ethereum development console with an unlocked account.
     ```javascript
-    testrpc
+    ganache-cli -u 0
     ```
 
 4. Compile and migrate the smart contracts.
