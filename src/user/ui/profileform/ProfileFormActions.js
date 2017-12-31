@@ -1,5 +1,4 @@
 import AuthenticationContract from '../../../../build/contracts/Authentication.json'
-import SimpleStoreContract from '../../../../build/contracts/SimpleStore.json'
 import store from '../../../store'
 
 const contract = require('truffle-contract')
@@ -24,10 +23,10 @@ export function updateUser(name) {
       authentication.setProvider(web3.currentProvider)
 
       // Declaring this for later so we can chain functions on Authentication.
-      var authenticationInstance
+      let authenticationInstance
 
       // Get current ethereum wallet.
-      web3.eth.getCoinbase((error, coinbase) => {
+      web3.eth.getCoinbase((error, defaultAccount) => {
         // Log errors, if any.
         if (error) {
           console.error(error);
@@ -35,19 +34,14 @@ export function updateUser(name) {
 
         authentication.deployed().then(function(instance) {
           authenticationInstance = instance
-
-          // Attempt to login user.
-          authenticationInstance.update(name, {from: coinbase})
-          .then(function(result) {
-            // If no error, update user.
-
-            dispatch(userUpdated({"name": name}))
-
-            return alert('Name updated!')
-          })
-          .catch(function(result) {
-            // If error...
-          })
+          authenticationInstance.update(name, {from: defaultAccount})
+            .then(function(result) { // Attempt to login user.
+              dispatch(userUpdated({"name": name})) // If no error, update user.
+              return alert('Name updated!')
+            })
+            .catch(function(result) {
+              // If error...
+            })
         })
       })
     }

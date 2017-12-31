@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-
+import DepositForm from '../depositform/DepositForm';
 class ProfileForm extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      name: this.props.name
+      name: this.props.name,
+      tx: this.props.tx
     }
   }
 
@@ -16,8 +17,7 @@ class ProfileForm extends Component {
   handleSubmit(event) {
     event.preventDefault()
 
-    if (this.state.name.length < 2)
-    {
+    if (this.state.name.length < 2) {
       return alert('Please fill in your name.')
     }
 
@@ -31,10 +31,8 @@ class ProfileForm extends Component {
           <label htmlFor="name">Name</label>
           <input id="name" type="text" value={this.state.name} onChange={this.onInputChange.bind(this)} placeholder="Name" />
           <span className="pure-form-message">This is a required field.</span>
-
           <br />
-
-          <button type="submit" className="pure-button pure-button-primary">Update</button>
+          <button type="submit" className="pure-button pure-button-primary">Change Name</button>
         </fieldset>
       </form>
     )

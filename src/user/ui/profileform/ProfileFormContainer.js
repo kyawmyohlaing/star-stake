@@ -12,8 +12,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onProfileFormSubmit: (name) => {
       event.preventDefault();
-
-      dispatch(updateUser(name))
+      dispatch(updateUser(name));
     }
   }
 }
