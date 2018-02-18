@@ -1,5 +1,4 @@
 import AuthenticationContract from '../../../../build/contracts/Authentication.json'
-import SimpleStoreContract from '../../../../build/contracts/SimpleStore.json'
 import store from '../../../store'
 
 const contract = require('truffle-contract')
