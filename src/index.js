@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { UserIsAuthenticated, UserIsNotAuthenticated } from './util/wrappers.js'
 import getWeb3 from './util/web3/getWeb3'
+import getAccounts from './util/web3/getAccounts'
 
 // Layouts
 import App from './App'
@@ -26,6 +27,14 @@ getWeb3
 })
 .catch(() => {
   console.log('Error in web3 initialization.')
+})
+
+getAccounts
+.then(results => {
+  console.log('web3-eth-accounts initialized!')
+})
+.catch(() => {
+  console.log('Error in web3-eth-accounts initialization.')
 })
 
 ReactDOM.render((

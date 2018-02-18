@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { storeEnttiy, createPublicKey } from './DepositFormActions';
 class DepositForm extends Component {
   constructor(props) {
     super(props)
@@ -20,16 +20,29 @@ class DepositForm extends Component {
     this.props.onDepositFormSubmit(this.state.num)
   }
 
+  handleClick(event) {
+    event.preventDefault();
+    this.props.onEntityButtonClick(this.state.num);
+  }
+
   render() {
     return (
-      <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit.bind(this)}>
-        <fieldset>
-          <input id="num" type="number" value={this.state.num} onChange={this.onInputChange.bind(this)} placeholder="Num"/>
+      <div>
+        <form className="pure-form pure-form-stacked" onSubmit={this.handleSubmit.bind(this)}>
+          <fieldset>
+            <input id="num" type="number" value={this.state.num} onChange={this.onInputChange.bind(this)} placeholder="Num"/>
 
-          <div>{this.props.num}</div>
-          <button type="submit" className="pure-button pure-button-primary">Deposit Stake</button>
-        </fieldset>
-      </form>
+            <div>{this.props.num}</div>
+            <button type="submit" className="pure-button pure-button-primary">Deposit Stake</button>
+            
+          </fieldset>
+        </form>
+
+
+        <button className="pure-button pure-button-primary" onClick={this.handleClick.bind(this)}>Things</button>
+
+      </div>
+      
       )
       
   }

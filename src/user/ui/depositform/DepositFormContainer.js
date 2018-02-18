@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import DepositForm from './DepositForm'
-import { storeAddress } from './DepositFormActions'
+import { storeAddress, storeEntity } from './DepositFormActions'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -13,6 +13,10 @@ const mapDispatchToProps = (dispatch) => {
     onDepositFormSubmit: (num) => {
       event.preventDefault();
       dispatch(storeAddress(num))
+    },
+    onEntityButtonClick: (num) => {
+      event.preventDefault();
+      dispatch(storeEntity(num))
     }
   }
 }
