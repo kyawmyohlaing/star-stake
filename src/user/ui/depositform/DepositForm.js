@@ -25,6 +25,16 @@ class DepositForm extends Component {
     this.props.onEntityButtonClick(this.state.num);
   }
 
+  handlePress(event) {
+    event.preventDefault();
+    this.props.onCountButtonClick();
+  }
+
+  handleFetch(event) {
+    event.preventDefault();
+    this.props.onFetchButtonClick();
+  }
+
   render() {
     return (
       <div>
@@ -39,8 +49,9 @@ class DepositForm extends Component {
         </form>
 
 
-        <button className="pure-button pure-button-primary" onClick={this.handleClick.bind(this)}>Things</button>
-
+        <button className="pure-button pure-button-primary" onClick={this.handleClick.bind(this)}>Create New</button>
+        <button className="pure-button pure-button-primary" onClick={this.handlePress.bind(this)}>Query Key Set</button>
+        <button className="pure-button pure-button-primary" onClick={this.handleFetch.bind(this)}>Query Value Set</button>
       </div>
       
       )

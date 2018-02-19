@@ -101,31 +101,54 @@ export function getEntityCount() {
     return dispatch => {
       const keyValueStore = contract(KeyValueStore);
       keyValueStore.setProvider(web3.currentProvider);
-      let hashmap;  
-      web3.eth.getCoinbase((err, coinbase) => {
-        if (err) { return console.log('err:',err);}
-
-        keyValueStore.deployed()
-          .then(inst => {
-            hashmap = inst;
-            hashmap.getEntityCount()
-              .then(function (res) {
-                console.log('res:',res);
-                return res;
-              })
-          })
-          .catch(err => {
-            console.log('err:',err);
-          })
-
-      })
+      keyValueStore.deployed()
+        .then(inst => {
+          inst.getEntityCount()
+            .then(res => res.toNumber())
+            .then(num => console.log('num:',num))
+        })
+        .catch(err => {
+          console.log('err:',err);
+        })
       
     }
   }
 }
 
-export function getEntrySet() {
+export function getKeys() {
+  let web3 = store.getState().web3.web3Instance;
+  if (typeof web3 !== 'undefined') {
+    return dispatch => {
+      const keyValueStore = contract(KeyValueStore);
+      keyValueStore.setProvider(web3.currentProvider); 
+      getKeySet(keyValueStore)
+        .then(res => {
+          const { keys } = res;
+          console.log('keys:',keys);
+        })
+        .catch(err => {
+          console.log('err:',err);
+        })
+      
+    }
+  }  
+}
 
+
+export function getEntrySet() {
+  let web3 = store.getState().web3.web3Instance;
+  if (typeof web3 !== 'undefined') {
+    return dispatch => {
+      const keyValueStore = contract(KeyValueStore);
+      keyValueStore.setProvider(web3.currentProvider); 
+      getKeySet(keyValueStore)
+        .then(hashmapIterator => getEntityStructs(hashmapIterator))
+        .then(res => {
+          console.log('res:',res);
+          console.log(JSON.stringify(res,null,2));
+        })
+    }
+  }
 }
 
 export function storeAddress(num) {
@@ -173,6 +196,45 @@ export function storeAddress(num) {
   }
 }
 
+function getKeysByIndex(start,end,hashmap) {
+  const size = end - start;
+  return Promise.all(range(start,end).map((index,count) => hashmap.entityList.call(index)))
+    .then(keys => ({size, keys, hashmap}))
+} 
+
+function getKeySet(keyValueStore) {
+  return keyValueStore.deployed()
+    .then(inst => Iterator(inst))
+    .then(iter => {
+      const { size, hashmap } = iter; 
+      return getKeysByIndex(0,size,hashmap)
+    })
+}
+
+
+function getEntityStructs(hashmapIterator) {
+  const { hashmap, size, keys } = hashmapIterator;
+  return Promise.all(
+    keys.map(address => {
+      return hashmap.entityStructs.call(address)
+        .then(entityData => ({ address, entityData }))
+    })
+  ).then(list => list.reduce((memo,entry) => ({
+    [entry.address]: {
+      entityData: entry.entityData[0].toNumber(),
+      isEntity: entry.entityData[1]
+    },
+    ...memo
+  }),{}))
+}
+
+// Accumulates both the deployed instance of the contract as well as its count
+function Iterator(hashmap) {
+  return hashmap.getEntityCount()
+    .then(res => res.toNumber())
+    .then(size => ({ hashmap, size }))
+}
+
 // promisified wrapper, returns default account
 function getCoinbase(web3) {
   return new Promise((resolve, reject) => {
@@ -182,3 +244,13 @@ function getCoinbase(web3) {
     })
   })
 }
+
+function range(start,end) {
+  if (typeof end == 'undefined'){
+    end = start;
+    start = 0;
+  }
+  var result = []
+  for (var i = start; i < end; i++){ result.push(i)}
+  return result;
+};

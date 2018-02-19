@@ -27,7 +27,7 @@ contract KeyValueStore {
 
   function updateEntity(address entityAddress, uint entityData) public returns(bool success) {
     assert(isEntity(entityAddress));
-    entityStructs[entityAddress].entityData    = entityData;
+    entityStructs[entityAddress].entityData = entityData;
     return true;
   }
 
