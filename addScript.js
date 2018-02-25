@@ -4,25 +4,26 @@ var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 var KeyValueStore = web3.eth.contract(artifacts);
 
 const accounts = [
-  "0x6aa03Cc962C5D5C87cAb8b2dC521699067b82b9d",
-  "0x6f46cf5569aefa1acc1009290c8e043747172d89",
-  "0x90e63c3d53e0ea496845b7a03ec7548b70014a91",
-  "0xab7c74abc0c4d48d1bdad5dcb26153fc8780f83e",
-  "0x53d284357ec70ce289d6d64134dfac8e511c8a3d",
-  "0xf4b51b14b9ee30dc37ec970b50a486f37686e2a8",
-  "0xe853c56864a2ebe4576a807d26fdc4a0ada51919",
-  "0x61edcdf5bb737adffe5043706e7c5bb1f1a56eea",
-  "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98",
-  "0xf27daff52c38b2c373ad2b9392652ddf433303c4",
-  "0x3d2e397f94e415d7773e72e44d5b5338a99e77d9",
-  "0xb8487eed31cf5c559bf3f4edd166b949553d0d11",
-  "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae",
-  "0xdc870798b30f74a17c4a6dfc6fa33f5ff5cf5770",
-  "0x1b3cb81e51011b549d78bf720b0d924ac763a7c2",
-  "0x6f52730dba7b02beefcaf0d6998c9ae901ea04f9",
-  "0x5ffc99b5b23c5ab8f463f6090342879c286a29be",
-  "0xf1ce0a98efbfa3f8ebec2399847b7d88294a634e",
-  "0x51f9c432a4e59ac86282d6adab4c2eb8919160eb"
+  "0x81Edfbcc12Abb98A3660608Dd1B65105EF2F00E5",
+  "0xa55E06E3C33D8e8d0AA654fB9b549dEC7D25F48A",
+  "0xF3d43ce61Af1Bf1A0fF6741c96A0A6D1c61Bf0eb",
+  "0x4e624BFb4594A8d93F8c44E52923c892D46dA194",
+  "0x1Bfb63a4674Fb8002d1Ad04D7869A2bFc668fa68",
+  "0x38d31a5C839fDcf1202FbB3a1347b4fea35c694D",
+  "0x2cf84e962CF547c81b215bc8E0310846b661622d",
+  "0x53e50202EB8D696bd1Ec96B0D8E9366E4D39b73A",
+  "0xfDD788fe153422Cc0f58D73Bd7a309dC8eBD0106",
+  "0xf2240a8AD2227Cf53E19EF4683B02C9f1d57E192",
+  "0xfDA1CB989bA8846F9C0316459AfB134eDb40a7eC",
+  "0x5f8568aD07413Eb409247eE2A31C33c0ce82f19d",
+  "0x4534E0AA80e79178726C08425bDBEAE0C105192D",
+  "0x4fca18B6c98012069Acda0452916F7191C64454f",
+  "0x7C5459E100Efa55a7C62eFb4C850046eE300847f",
+  "0xF43CfE143CBb2019d47848B38faeD25645dab1a8",
+  "0x8ea3Ab594f8E920DF45D074e88BC4eC1b6De7Fb6",
+  "0xae88907C9Ef739076Cc68E44376Dc0aD0E3Dd57F",
+  "0x9c378eEd63eEe79D84903A5bBEB593273F05F2DA",
+  "0x23e6C3f5eC4cAbEf2e8402B7B169757125c2D320"
 ];
 
 let inst = KeyValueStore.at('0xf3631e2d9b38719d93d342ffc5d3e8839afeeb4d');
@@ -30,6 +31,7 @@ let inst = KeyValueStore.at('0xf3631e2d9b38719d93d342ffc5d3e8839afeeb4d');
 web3.eth.defaultAccount = web3.eth.accounts[0];
 
 let structs = accounts.map((address, index) => {
+  inst.newEntity(address, index + 1, { from: web3.eth.accounts[0], gas: 3300000 });
   let struct = inst.entityStructs(address);
   return {
     entityData: Number(struct[0]),
