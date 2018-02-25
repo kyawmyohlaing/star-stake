@@ -31,7 +31,9 @@ let inst = KeyValueStore.at('0xf3631e2d9b38719d93d342ffc5d3e8839afeeb4d');
 web3.eth.defaultAccount = web3.eth.accounts[0];
 
 let structs = accounts.map((address, index) => {
-  inst.newEntity(address, index + 1, { from: web3.eth.accounts[0], gas: 3300000 });
+  if (!inst.isEntity(address)) {
+    inst.newEntity(address, index + 1, { from: web3.eth.accounts[0], gas: 3300000 });
+  }
   let struct = inst.entityStructs(address);
   return {
     entityData: Number(struct[0]),
