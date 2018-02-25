@@ -4,10 +4,14 @@ In addition to Webpack and React, this box adds: react-router, redux and redux-a
 
 ## Installation
 
-1. Install Truffle globally.
+1. Install Dependencies, and Truffle globally. 
     ```javascript
+    npm install
     npm install -g truffle
-    ```
+    ```  
+
+    Note: Yarn does not work with web3 v1.0.0, so please just use npm innstead. If you accidentally did yarn, run  
+    `npm i web3-eth-accounts --save` as that's the package that doesn't play well 
 
 2. Ensure truffle.js exported JSON has this object
     ```javascript
@@ -22,8 +26,10 @@ In addition to Webpack and React, this box adds: react-router, redux and redux-a
 
 3. Run the Ethereum development console.
     ```javascript
-    testrpc
+    ganache-cli -u 0
     ```
+
+    Note: Can also use testrpc, but I recommend `ganache-cli`  
 
 4. Compile and migrate the smart contracts.
     ```javascript
