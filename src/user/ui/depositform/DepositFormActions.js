@@ -53,16 +53,11 @@ export function storeEntity(entity) {
                 console.log('res:',res);
                 return res;
               })
-
-
           })
           .catch(err => {
             console.log('err:',err);
           })
-
       })
-
-
     }
   } else {
     console.log('web3 not initialized:');
@@ -86,7 +81,6 @@ export function getEntity(address) {
             console.log('entity:',entity);
             return entity;
           })
-
       })
       .catch(err => {
         console.log('err:',err);
