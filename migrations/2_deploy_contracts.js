@@ -4,29 +4,28 @@ var Authentication = artifacts.require("./Authentication.sol");
 var SimpleStore = artifacts.require("./SimpleStore.sol");
 var KeyValueStore = artifacts.require('./KeyValueStore.sol');
 var Courses = artifacts.require("./Courses.sol");
+var Whitelist = artifacts.require("./Whitelist.sol");
+
 module.exports = function(deployer) {
-  deployer.deploy(Ownable);
+  deployer.deploy(Ownable);  
+  deployer.deploy(Whitelist);
+
+  
+};
+
+function asyncDeploy(deploy) {
   deployer.link(Ownable, Killable);
   deployer.deploy(Killable);
   deployer.link(Killable, Authentication);
   deployer.deploy(Authentication);
-
   deployer.deploy(SimpleStore);
   deployer.deploy(KeyValueStore);
 
   Promise.all([1,2,3,4,5,6,7].map(i => {
-    return deployer.deploy(Courses)
-      .then(() => {
-        return Courses.deployed()
-      })
-      .then((inst) => {
-        return inst.ownerAddress.call()
-      })
-      .then((res) => {
-        console.log('ownerAddress:',res);
-        return 1;
-      })
+    return deployer.deploy(Whitelist)
+      .then(() => {  return Courses.deployed() })
+      .then((inst) => { return inst.ownerAddress.call() })
+      .then((res) => { console.log('ownerAddress:',res); return 1; })
   }));
-};
-
+}
 
