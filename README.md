@@ -2,6 +2,11 @@
 
 In addition to Webpack and React, this box adds: react-router, redux and redux-auth-wrapper for authentication powered by a smart contract.
 
+**Please make sure you have ganache-cli installed before all this**:  
+`npm install -g ganache-cli`  
+NPM install instructions: https://github.com/trufflesuite/ganache-cli  
+  
+    
 ## Installation
 
 1. Install Dependencies, and Truffle globally. 
